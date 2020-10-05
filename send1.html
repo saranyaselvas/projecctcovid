@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@700&family=Roboto+Mono&family=Sansita+Swashed:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Miriam+Libre:wght@700&family=Roboto+Mono:wght@400;500&family=Sansita+Swashed:wght@500&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script language="Javascript" src="jquery.js"></script>
+    <script type="text/JavaScript" src='state.js'></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><script>
+  
+    function getData() {
+    var state = document.getElementById("listBox").value;
+    var de = document.getElementById("secondlist").value;
+   $.getJSON('https://api.covidindiatracker.com/state_data.json', function(result){
+
+    for(i in result) {
+    if(result[i]["state"] == state ) {
+    document.getElementById("conf").value = result[i]["confirmed"];
+    document.getElementById("act").value = result[i]["active"];
+    document.getElementById("rec").value = result[i]["recovered"];
+    document.getElementById("dec").value = result[i]["deaths"];
+    break;
+    }
+    }
+ 
+    
+    for(i in result)
+    {
+        for(j in result)
+        {
+            if(result[i]["state"] == state && result[i]["districtData"][j]["name"] == de)
+            {
+
+               document.getElementById("dconf").value = result[i]["districtData"][j]["confirmed"] 
+                
+                
+                break;
+
+            }
+        }
+    }
+
+
+
+  });
+}
+    </script>
+    <style type="text/css">
+    td {
+    width: 200px;
+    font-size: 15px;
+
+    }
+    
+
+select{
+    height: 49px;
+    width: 337px;
+    font-size: 15px;
+    padding: 15px;
+    margin: 0px;
+    border-radius: 1000px;
+    font-family: 'Miriam Libre', sans-serif;
+}
+input
+{
+    height: 49px;
+    width: 337px;
+    font-size: 15px;
+    padding: 15px;
+    margin-left: 155px;
+    border-radius: 1000px;
+    font-family: 'Miriam Libre', sans-serif;
+}
+}
+    
+    </style>
+</head>
+
+<body style="padding-top: 21px;">
+<fieldset style="padding-left: 100px; padding-right: 400px;   padding-left: 347px;
+    padding-right: 218px;">
+        <legend align="center">COVID TRACKER</legend>
+   <table align="center">
+    <tr>
+        <select style="margin:25px "; id="listBox" onchange='selct_district(this.value)'></select>
+        <select id='secondlist'></select>
+           
+</tr>
+
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="dconf">DISTICT TOTAL CONFIRMED</label></td>
+<td><input type="text" name="dconf" id="dconf" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="conf">STATE TOTAL CONFIRMED</label></td>
+<td><input type="text" name="conf" id="conf" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="act">STATE ACTIVE CASES</label></td>
+<td><input type="text" name="act" id="act" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="rec">STATE RECOVERED CASES</label></td>
+<td><input type="text" name="rec" id="rec" value="0" disabled /></td>
+</tr>
+<tr>
+<td><label style="font-family: 'Miriam Libre', sans-serif;" for="dec">STATE DECEASED CASES</label></td>
+<td><input type="text" name="dec" id="dec" value="0" disabled /></td>
+</tr>
+<tr>
+</table>
+<div>
+    <button onclick="getData()">FETCH DATA</button>
+</fieldset>
+</body>
+</html>
